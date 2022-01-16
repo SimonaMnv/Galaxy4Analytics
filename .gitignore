@@ -1,0 +1,6 @@
+# these you get from https://console.cloud.google.com/apis/credentials
+.credentials
+
+__pycache__
+.idea
+venv
