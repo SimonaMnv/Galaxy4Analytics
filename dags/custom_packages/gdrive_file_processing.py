@@ -2,35 +2,28 @@ from __future__ import print_function
 
 import os
 
-from oauth2client import tools
 from oauth2client.file import Storage
 from oauth2client import client
 
 
 class Auth2Drive:
-    """
-        If modifying these scopes, delete your previously saved credentials
-        at ~/.credentials/drive-python-quickstart.json
-    """
-
-    def __init__(self, size, scopes, client_secret_file, application_name, filter_files):
+    def __init__(self, size, scopes, client_secret_file, client_secret_file_dir, application_name, filter_files):
         self.size = size
         self.SCOPES = scopes
+        self.CLIENT_SECRET_FILE_DIR = client_secret_file_dir
         self.CLIENT_SECRET_FILE = client_secret_file
         self.APPLICATION_NAME = application_name
         self.FILTER_FILES = filter_files
 
     def get_credentials(self):
         """ Gets valid user credentials from storage.
-
         If nothing has been stored, or if the stored credentials are invalid,
         the OAuth2 flow is completed to obtain the new credentials.
-
         Returns:
             Credentials, the obtained credential.
         """
         cwd_dir = os.getcwd()
-        credential_dir = os.path.join(cwd_dir, '../../.credentials')
+        credential_dir = os.path.join(cwd_dir, self.CLIENT_SECRET_FILE_DIR)
         if not os.path.exists(credential_dir):
             os.makedirs(credential_dir)
         credential_path = os.path.join(credential_dir, 'google-drive-credentials.json')
@@ -40,12 +33,13 @@ class Auth2Drive:
         if not credentials or credentials.invalid:
             flow = client.flow_from_clientsecrets(self.CLIENT_SECRET_FILE, self.SCOPES)
             flow.user_agent = self.APPLICATION_NAME
-            credentials = tools.run_flow(flow, store)
+            print('Storing credentials to ' + credential_path)
+
         return credentials
 
     def list_children_files(self, parent_ids, drive_service):
         """
-        returns the children ids based on their parents id
+        Returns the children id's based on their parent's id to get the subdirectories.
         :param drive_service:
         :param parent_ids:
         :return:
@@ -65,7 +59,8 @@ class Auth2Drive:
 
     def list_parent_files(self, drive_service):
         """
-        lists the files in the gdrive. filter out directories to list files from
+        Lists the parent files (main dirs) from gdrive.
+        Also filters out directories to list only files from the config.json
         :return:
         """
 

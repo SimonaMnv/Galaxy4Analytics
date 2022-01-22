@@ -1,8 +1,0 @@
-{
-
-    "SCOPES": "https://www.googleapis.com/auth/drive",
-    "CLIENT_SECRET_FILE": "client_secrets.json",
-    "APPLICATION_NAME": "GDrive API",
-    "LIST_FILE_SIZE": "10",
-    "PARENT_FILES": ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
-}
