@@ -1,12 +1,10 @@
-import json
 import os
 import unittest
-from datetime import datetime
 
 from airflow.models import DagBag
 
+from dags.custom_packages.gdrive_file_processing import Auth2Drive
 
-from gdrive_file_processing import Auth2Drive
 
 project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
