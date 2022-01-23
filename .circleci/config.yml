@@ -28,9 +28,6 @@ jobs:
       - checkout
       - run: *system-deps
       - run: *install
-          paths:
-            - /home/circleci/.cache/pip
-            - /home/circleci/.pyenv
       - run:
           name: CI tasks
           command: |
