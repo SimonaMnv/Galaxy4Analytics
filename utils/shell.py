@@ -27,7 +27,7 @@ def __airflow_env():
         'AIRFLOW__EMAIL__DEFAULT_EMAIL_ON_RETRY': 'False',
         'AIRFLOW__WEBSERVER__EXPOSE_CONFIG': 'True',
         'AIRFLOW__WEBSERVER__DAG_ORIENTATION': 'TB',
-        'AIRFLOW__LOGGING__LOGGING_LEVEL': 'info',
+        'AIRFLOW__LOGGING__LOGGING_LEVEL': 'INFO',
         'AIRFLOW__LOGGING__LOG_FILENAME_TEMPLATE': '{{ ti.dag_id }}.log',
         'AIRFLOW__API__AUTH_BACKEND': 'airflow.api.auth.backend.basic_auth',
         'AIRFLOW__SCHEDULER__CATCHUP_BY_DEFAULT': 'False',
