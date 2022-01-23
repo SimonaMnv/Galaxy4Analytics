@@ -139,7 +139,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_unit)
+@task(grant_pg_db, lint)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
