@@ -3,6 +3,7 @@ set -e
 
 source scripts/vars.sh
 
+chmod 755 scripts/setup_python.sh
 scripts/setup_python.sh
 
 pip install --upgrade pip
