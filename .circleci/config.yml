@@ -31,8 +31,6 @@ jobs:
           keys:
             - dep-{{ .Environment.CACHE_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum ".python-version"}}
       - run: *install
-#      - save_cache:
-#          key: dep-{{ .Environment.CACHE_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum ".python-version"}}
           paths:
             - /home/circleci/.cache/pip
             - /home/circleci/.pyenv
