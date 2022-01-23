@@ -130,19 +130,6 @@ def test_unit(ctx):
     shell.command_no_suppress('python -m unittest discover -s ./tests -p "*_test.py"')
 
 
-@task(pre=[], help={'single': 'Only tests a specific DAG', 'all_dags': 'Test all of the DAGs!'})
-def test_system(ctx, single=None, all_dags=False):
-    """
-    Run any system tests
-    """
-    print('Running system tests...')
-    if single:
-        os.environ['SINGLE'] = single
-    elif all_dags:
-        os.environ['ALL'] = '1'
-    shell.command_no_suppress('python -m unittest -v tests.system.results_test')
-
-
 @task
 def lint(ctx):
     """
@@ -152,7 +139,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_system)
+@task(grant_pg_db, lint, test_unit)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
