@@ -127,19 +127,10 @@ def test_unit(ctx):
     Run any unit tests
     """
     print('Running unit tests...')
-    shell.command_no_suppress('python -m unittest discover -s ./src -p "*_test.py"')
+    shell.command_no_suppress('python -m unittest discover -s ./tests -p "*_test.py"')
 
 
-@task(initdb, clean)
-def test_integration(ctx):
-    """
-    Run any integration tests
-    """
-    print('Running integration tests...')
-    shell.command_no_suppress('python -m unittest discover -s ./test/integration -p "*_test.py" -v')
-
-
-@task(pre=[], help={'single': 'Only test a specific DAG', 'all_dags': 'Test all of the DAGs!'})
+@task(pre=[], help={'single': 'Only tests a specific DAG', 'all_dags': 'Test all of the DAGs!'})
 def test_system(ctx, single=None, all_dags=False):
     """
     Run any system tests
@@ -149,7 +140,7 @@ def test_system(ctx, single=None, all_dags=False):
         os.environ['SINGLE'] = single
     elif all_dags:
         os.environ['ALL'] = '1'
-    shell.command_no_suppress('python -m unittest -v test.system.results_test')
+    shell.command_no_suppress('python -m unittest -v tests.system.results_test')
 
 
 @task
