@@ -31,6 +31,8 @@ jobs:
       - run:
           name: CI tasks
           command: |
+            ls ~/.pyenv || curl https://pyenv.run | bash
+            export PATH="~/.pyenv/bin:$PATH"
             eval "$(pyenv init --path)"
             eval "$(pyenv init -)"
             eval "$(pyenv virtualenv-init -)"
