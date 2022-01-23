@@ -1,0 +1,10 @@
+apache-airflow[postgres,ldap,statsd,ssh,google,mysql]==2.2.2
+python-dotenv
+coverage
+invoke
+GitPython
+flake8
+wheel
+tailhead
+psutil
+pyhamcrest
