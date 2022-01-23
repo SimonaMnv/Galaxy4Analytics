@@ -8,7 +8,6 @@ from googleapiclient import discovery
 
 from custom_packages import gdrive_file_processing
 
-import logging
 import os
 
 project_root = os.path.dirname(os.path.dirname(__file__))
@@ -50,7 +49,6 @@ def authorize_and_get_file_info(**context):
     for child in children_ids:
         full_list.extend(child)
 
-    logging.info("LOGGING THE XCOM VALUE", context['task_instance'].xcom_pull(key='children_id_name'))
     context['task_instance'].xcom_push(key="children_id_name", value=full_list)
 
 
@@ -60,12 +58,20 @@ def download_files(**context):
     :param context:
     :return:
     """
-    # a = context['task_instance'].xcom_pull("children_id_name")
+    children_info = context['task_instance'].xcom_pull(key='children_id_name')
+    task_list = []
+    task_count = 0
 
-    hook.download_file(
-        file_id='18U-ssxn3O2Id2RhYBJag5UAGIOGx7scx',  # TODO: change this based on id list
-        file_handle=open(project_root + '/downloaded_dataset/test.csv', "wb")
-    )
+    for child_info in children_info:
+        task_count += 1
+        task_list.append(
+            hook.download_file(
+                file_id=child_info['id'],
+                file_handle=open(project_root + '/downloaded_dataset/' + str(child_info['name'])
+                                 .replace('/', '-')
+                                 .replace(' ', '_'), "wb")
+            )
+        )
 
 
 with DAG(
@@ -92,12 +98,5 @@ with DAG(
         task_id='download_files_locally',
         python_callable=download_files
     )
-
-    # generate dynamically this many dags as we have returned id's
-    # task_list = []
-    # task_count = 0
-    # for i in range(0, len(file_list)):
-    # task_count += 1
-    # # task_list.append(
 
     authorize_and_get_files_id >> download_files_locally
