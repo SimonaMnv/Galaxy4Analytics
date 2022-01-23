@@ -27,9 +27,6 @@ jobs:
     steps:
       - checkout
       - run: *system-deps
-      - restore_cache:
-          keys:
-            - dep-{{ .Environment.CACHE_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum ".python-version"}}
       - run: *install
           paths:
             - /home/circleci/.cache/pip
