@@ -4,5 +4,5 @@
 - Make sure that the file(s) or main dir that you want to access has the option Link sharing on (Get Shareable Link option, and turn on Link Sharing)
 
 # TODO
-1. add tests (unit, integration)
-2. coverage
+1. add unit test, integration test, coverage
+2. work on  tasks.py 

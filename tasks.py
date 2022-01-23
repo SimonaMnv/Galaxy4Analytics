@@ -139,19 +139,9 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint)
+@task(grant_pg_db, lint, test_unit)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
     """
     print('Running CI...')
-
-
-@task
-def clear_logs(ctx):
-    """
-    Remove all logs from your Mac
-    """
-
-    print('Running remote log removal...')
-    ctx.run('rm -rf airflow/logs/*')
