@@ -152,24 +152,6 @@ def test_system(ctx, single=None, all_dags=False):
     shell.command_no_suppress('python -m unittest -v test.system.results_test')
 
 
-@task(initdb, clean)
-def coverage(ctx):
-    """
-    Run coverage checks
-    """
-    print('Running coverage...')
-    shell.command_no_suppress('coverage run --branch --source=src -m unittest discover -s ./src -p "*_test.py"')
-
-
-@task(coverage)
-def coverage_check(ctx):
-    """
-    Check if code coverage meets minimum requirements
-    """
-    print('Running coverage check...')
-    ctx.run('coverage report --skip-empty --omit="*_test.py" --fail-under=50 -m')
-
-
 @task
 def lint(ctx):
     """
@@ -179,7 +161,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, coverage_check, test_integration, test_system)
+@task(grant_pg_db, lint, test_integration, test_system)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
