@@ -3,6 +3,15 @@ import subprocess
 from dotenv import dotenv_values
 
 
+def db_host():
+    """
+    Determine the database host to use
+    """
+    if environ.get('CI'):
+        return 'localhost'
+    return ''
+
+
 def __airflow_env():
     airflow = {
         # mac
