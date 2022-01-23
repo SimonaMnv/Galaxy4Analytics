@@ -6,5 +6,6 @@ GitPython
 flake8
 wheel
 tailhead
+oauth2client
 psutil
 pyhamcrest
