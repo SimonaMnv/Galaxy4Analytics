@@ -1,16 +1,6 @@
 import os
 from invoke import task
-from pygments.lexers import shell
-
-
-def db_host_arg():
-    """
-    Construct the host argument suitable for the psql command.
-    """
-    db_host = shell.db_host()
-    if db_host:
-        return f'-h {db_host} '
-    return ''
+from utils import shell
 
 
 def db_user_arg():
