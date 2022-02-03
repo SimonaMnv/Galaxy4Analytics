@@ -1,20 +1,22 @@
 import os
+
 import unittest
 
-from airflow.models import DagBag
+import httplib2
+from googleapiclient import discovery
 
 from dags.custom_packages.gdrive_file_processing import Auth2Drive
 
 
 project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
+""" unit tests on gdrive_file_processing.py """
 
-# TODO: so many more tests to add.
+
 class checkGdriveFileProcessing(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         """ set up a class instance """
-        cls.auth_inst = Auth2Drive(
+        self.auth_inst = Auth2Drive(
             "10",
             "https://www.googleapis.com/auth/drive",
             project_root + '/.credentials/client_secrets.json',
@@ -22,24 +24,34 @@ class checkGdriveFileProcessing(unittest.TestCase):
             "GDrive API",
             ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
         )
-        print("setUpClass is running")
+        print("setUp is running")
 
-    def test_creds_file_existence(self):
-        """ check if credentials file exists """
-        creds_path = project_root + "/.credentials/client_secrets.json"
-        self.assertTrue(os.path.exists(creds_path))
+    def test_get_creds_object_obtained(self):
+        """ check if credentials object is obtained """
+        self.assertTrue(
+            str(type(self.auth_inst.get_credentials())) == "<class 'oauth2client.client.OAuth2Credentials'>")
 
-    def test_service_account_file_existence(self):
-        """ check if service account json file exists """
-        creds_path = project_root + "/.credentials/service_account_key.json"
-        self.assertTrue(os.path.exists(creds_path))
+    def test_http_object_obtained(self):
+        """ check that http object is obtained """
+        credentials = self.auth_inst.get_credentials()
+        self.assertTrue(str(type(credentials.authorize(httplib2.Http())) == "<class 'httplib2.Http'>"))
 
-    def test_no_import_errors(self):
-        """ no DAG import errors """
-        dag_bag = DagBag()
-        self.assertTrue(len(dag_bag.import_errors) == 0)
+    def test_drive_service_object_obtains(self):
+        """ check that drive service object is obtained """
+        credentials = self.auth_inst.get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        print(type(discovery.build('drive', 'v3', http=http)))
+        self.assertTrue(
+            str(type(discovery.build('drive', 'v3', http=http))) == "<class 'googleapiclient.discovery.Resource'>")
 
-    @classmethod
-    def tearDownClass(cls) -> None:
+    def test_get_parents(self):
+        """ check if list_parent_files is not None """
+        credentials = self.auth_inst.get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        drive_service = discovery.build('drive', 'v3', http=http)
+        self.assertTrue(self.auth_inst.list_parent_files(drive_service) is not None)
+
+    def tearDown(self) -> None:
         """ bye bye """
-        print("tearDownClass is running")
+        self.auth_inst = None
+        print("tearDown is running")
