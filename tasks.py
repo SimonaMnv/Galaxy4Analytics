@@ -131,7 +131,7 @@ def test_unit(ctx):
     Run any unit tests
     """
     print('Running unit tests...')
-    shell.command_no_suppress('python -m unittest discover -s tests -p "*_test.py" -v"')
+    shell.command_no_suppress('python -m unittest discover -s tests -p "*_test.py" -v')
 
 
 @task
