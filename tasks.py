@@ -104,12 +104,14 @@ def grant_pg_db(ctx):
     print('Running PostgreSQL DB create...')
     db_host = db_host_arg()
     db_user = db_user_arg()
+    db_user = db_user_arg()
     patterns = [
         f'echo "CREATE USER airflow_user WITH PASSWORD \'airflow_pass\';" | psql {db_user}{db_host}airflow_db',
         f'echo "GRANT ALL PRIVILEGES ON DATABASE airflow_db TO airflow_user;" | psql {db_user}{db_host}airflow_db',
     ]
     for pattern in patterns:
         ctx.run(pattern)
+    print("end of PostgreSQL DB run...")
 
 
 @task(recreate_pg_db, grant_pg_db)
