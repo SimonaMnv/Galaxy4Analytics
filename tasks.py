@@ -17,12 +17,14 @@ def db_user_arg():
     """
     Construct the user argument suitable for the psql command.
     """
+    # For Mac and CI we use the current user
     osInfo = os.uname()
-    if osInfo.sysname == 'Tester':
+    if osInfo.sysname == 'Darwin':
         return ''
     if os.environ.get('CI'):
         return ''
 
+    # We assume other linuxes are workspace
     return '-U postgres '
 
 
@@ -64,7 +66,7 @@ def scheduler(ctx):
 @task
 def initdb(ctx):
     """
-    Initialises Airflow's local DB using SQLite.
+    Initialises Airflow's DB for local use using SQLite.
     """
     print('Running init db...')
     # db init can be problematic, so we try twice
@@ -74,7 +76,6 @@ def initdb(ctx):
         'airflow users create --username dev --firstname dev'
         ' --lastname dev --role Admin --email dev@dev.int --password dev'
     ))
-    print('initdb done...')
 
 
 @task
@@ -114,12 +115,21 @@ def grant_pg_db(ctx):
 @task(recreate_pg_db, grant_pg_db)
 def resetdb(ctx):
     """
-    Resets Airflow's DB for local using SQLite.
+    Resets Airflow's DB for local use using SQLite.
     """
     print('Running reset db...')
     ctx.run('rm -f airflow/logs/*.log')
     shell.dont_care_command('invoke initdb')
     shell.command_no_suppress('invoke initdb')
+
+
+@task(initdb, clean)
+def test_unit(ctx):
+    """
+    Run any unit tests
+    """
+    print('Running unit tests...')
+    shell.command_no_suppress('python -m unittest discover -s ./src -p "*_test.py"')
 
 
 @task(initdb, clean)
@@ -146,3 +156,13 @@ def ci(ctx):
     Run all the applicable tests that our CI process runs.
     """
     print('Running CI...')
+
+
+@task
+def clear_logs(ctx):
+    """
+    Remove all logs from your Mac
+    """
+
+    print('Running remote log removal...')
+    ctx.run('rm -rf airflow/logs/*')
