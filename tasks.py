@@ -76,6 +76,7 @@ def initdb(ctx):
         'airflow users create --username dev --firstname dev'
         ' --lastname dev --role Admin --email dev@dev.int --password dev'
     ))
+    print("finished init db...")
 
 
 @task
