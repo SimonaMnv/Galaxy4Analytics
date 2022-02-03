@@ -126,13 +126,13 @@ def resetdb(ctx):
     shell.command_no_suppress('invoke initdb')
 
 
-@task(initdb, clean)
-def test_unit(ctx):
-    """
-    Run any unit tests
-    """
-    print('Running unit tests...')
-    shell.command_no_suppress('python -m unittest discover -s tests -p "*_test.py" -v')
+# @task(initdb, clean)
+# def test_unit(ctx):
+#     """
+#     Run any unit tests
+#     """
+#     print('Running unit tests...')
+#     shell.command_no_suppress('python -m unittest discover -s tests -p "*_test.py" -v')
 
 
 @task
@@ -144,7 +144,8 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_unit)
+# todo: add test_unit here
+@task(grant_pg_db, lint)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
