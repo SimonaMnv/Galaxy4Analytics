@@ -127,6 +127,13 @@ def resetdb(ctx):
     shell.command_no_suppress('invoke initdb')
 
 
+@task(scheduler, webserver)
+def test_dag(ctx):
+    """ Run dag system tests """
+    print('Running dag system tests...')
+    # todo: implement this
+
+
 @task(initdb, clean)
 def test_unit(ctx):
     """
@@ -145,19 +152,9 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_unit)
+@task(grant_pg_db, lint, test_unit, test_dag)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
     """
     print('Running CI...')
-
-
-@task
-def clear_logs(ctx):
-    """
-    Remove all logs from your Mac
-    """
-
-    print('Running remote log removal...')
-    ctx.run('rm -rf airflow/logs/*')
