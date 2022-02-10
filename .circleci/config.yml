@@ -31,9 +31,7 @@ jobs:
           POSTGRES_DB: airflow_db
           POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
-      - build:
-        context:
-          - Galaxy4Analytics
+
     steps:
       - checkout
       - run: *system-deps
@@ -55,6 +53,8 @@ workflows:
   build-and-deploy:
     jobs:
       - build:
+          context:
+            - Galaxy4Analytics
           filters:
             tags:
               only: /.*/
