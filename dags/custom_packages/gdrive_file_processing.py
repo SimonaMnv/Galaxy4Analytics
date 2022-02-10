@@ -37,7 +37,8 @@ class Auth2Drive:
 
         return credentials
 
-    def list_children_files(self, parent_ids, drive_service):
+    @staticmethod
+    def list_children_files(parent_ids, drive_service):
         """
         Returns the children id's based on their parent's id to get the subdirectories.
         :param drive_service:

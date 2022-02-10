@@ -10,7 +10,7 @@ from dags.custom_packages.gdrive_file_processing import Auth2Drive
 
 project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
-""" unit tests on gdrive_file_processing.py """
+""" unit tests on gdrive_file_processing_test.py  """
 
 
 class checkGdriveFileProcessing(unittest.TestCase):

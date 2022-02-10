@@ -6,3 +6,4 @@
 # TODO
 1. add unit test, integration test, coverage
 2. work on  tasks.py -> fix circleci CI
+3. firebase init // firebase deploy 

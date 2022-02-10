@@ -24,6 +24,9 @@ jobs:
           POSTGRES_DB: airflow_db
           POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
+    dependencies:
+      pre:
+        - openssl aes-256-cbc -d -in credentials/client_secret.json -out credentials/client_secret.json -k $KEY >> /home/circleci/project/
     steps:
       - checkout
       - run: *system-deps

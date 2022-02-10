@@ -126,6 +126,7 @@ def resetdb(ctx):
     shell.command_no_suppress('invoke initdb')
 
 
+# todo 1: uncomment this but change the tests
 # @task(initdb, clean)
 # def test_unit(ctx):
 #     """
@@ -144,7 +145,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-# todo: add test_unit here
+# todo 2: add test_unit here
 @task(grant_pg_db, lint)
 def ci(ctx):
     """
