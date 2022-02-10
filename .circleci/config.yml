@@ -13,13 +13,12 @@ aliases:
         eval "$(pyenv virtualenv-init -)"
         chmod 755 scripts/install.sh
         scripts/install.sh
-dependencies:
-  pre:
-    - openssl aes-256-cbc -d -in credentials/client_secret.json -out credentials/client_secret.json -k $KEY >> /home/circleci/project/
-  - &secret-file
-    name: Encryption and movement of secret file
+  - &secret-folder-creation
+    name: Credentials file creation
     command: |
       cd /home/circleci/project/
+      mkdir .credentials
+      cd credentials
       ls
 version: 2.1
 jobs:
@@ -36,7 +35,7 @@ jobs:
       - checkout
       - run: *system-deps
       - run: *install
-      - run: *secret-file
+      - run: *secret-folder-creation
       - run:
           name: CI tasks
           command: |
