@@ -7,7 +7,6 @@ from googleapiclient import discovery
 
 from dags.custom_packages.gdrive_file_processing import Auth2Drive
 
-
 project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
 """ unit tests on gdrive_file_processing_test.py  """
@@ -19,7 +18,8 @@ class checkGdriveFileProcessing(unittest.TestCase):
         self.auth_inst = Auth2Drive(
             "10",
             "https://www.googleapis.com/auth/drive",
-            project_root + '/.credentials/client_secrets.json' if not None else project_root + os.environ.get('client_secrets'),
+            project_root + '/.credentials/client_secrets.json' if not None
+            else project_root + os.environ.get('CLIENT_SECRETS'),
             project_root + "/.credentials",
             "GDrive API",
             ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]

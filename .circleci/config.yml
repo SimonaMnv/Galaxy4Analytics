@@ -20,6 +20,7 @@ aliases:
       mkdir .credentials
       cd .credentials
       ls
+      echo ${CLIENT_SECRETS}
 version: 2.1
 jobs:
   build:
