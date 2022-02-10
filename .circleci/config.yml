@@ -17,8 +17,8 @@ aliases:
     name: Credentials file creation
     command: |
       cd /home/circleci/project/
-      mkdir .credentials
-      cd .credentials
+      mkdir credentials
+      cd credentials
       ls
 version: 2.1
 jobs:
@@ -31,13 +31,12 @@ jobs:
           POSTGRES_DB: airflow_db
           POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
-
     steps:
       - checkout
       - run: *system-deps
       - run: *install
       - run: *secret-folder-creation
-      - run: echo $CLIENT_SECRETS
+      - run: echo $GOOGLE_DRIVE_CREDENTIALS
       - run:
           name: CI tasks
           command: |

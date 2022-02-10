@@ -11,13 +11,13 @@ from custom_packages import gdrive_file_processing
 import os
 
 project_root = os.path.dirname(os.path.dirname(__file__))
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/.credentials/service_account_key.json'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
 
 params = {
     "LIST_FILE_SIZE": "10",
     "SCOPES": "https://www.googleapis.com/auth/drive",
-    "CLIENT_SECRET_FILE": project_root + '/.credentials/client_secrets.json',
-    "CLIENT_SECRET_FILE_DIR": project_root + "/.credentials",
+    "CLIENT_SECRET_FILE_DIR": project_root + "/credentials",
+    "CLIENT_SECRET_FILE": project_root + '/credentials/client_secrets.json',
     "APPLICATION_NAME": "GDrive API",
     "PARENT_FILES": ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
 }
@@ -32,8 +32,8 @@ def authorize_and_get_file_info(**context):
     auth_inst = gdrive_file_processing.Auth2Drive(
         params['LIST_FILE_SIZE'],
         params['SCOPES'],
-        params['CLIENT_SECRET_FILE'],
         params['CLIENT_SECRET_FILE_DIR'],
+        params['CLIENT_SECRET_FILE'],
         params['APPLICATION_NAME'],
         params['PARENT_FILES']
     )

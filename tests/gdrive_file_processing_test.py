@@ -18,9 +18,8 @@ class checkGdriveFileProcessing(unittest.TestCase):
         self.auth_inst = Auth2Drive(
             "10",
             "https://www.googleapis.com/auth/drive",
-            project_root + '/.credentials/client_secrets.json' if not None
-            else project_root + os.environ.get('CLIENT_SECRETS'),
-            project_root + "/.credentials",
+            project_root + "/credentials",
+            project_root + "/credentials/google-drive-credentials.json",
             "GDrive API",
             ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
         )
