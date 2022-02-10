@@ -42,13 +42,13 @@ class checkGdriveFileProcessing(unittest.TestCase):
         self.assertTrue(
             str(type(discovery.build('drive', 'v3', http=http))) == "<class 'googleapiclient.discovery.Resource'>")
 
-    def test_get_parents(self):
-        """ check if list_parent_files is not None """
-        credentials = self.auth_inst.get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        drive_service = discovery.build('drive', 'v3', http=http)
-        parent_ids = self.auth_inst.list_parent_files(drive_service)
-        self.assertTrue(parent_ids is not None)
+    # def test_get_parents(self):
+    #     """ check if list_parent_files is not None """
+    #     credentials = self.auth_inst.get_credentials()
+    #     http = credentials.authorize(httplib2.Http())
+    #     drive_service = discovery.build('drive', 'v3', http=http)
+    #     parent_ids = self.auth_inst.list_parent_files(drive_service)
+    #     self.assertTrue(parent_ids is not None)
 
     def tearDown(self) -> None:
         """ bye bye """
