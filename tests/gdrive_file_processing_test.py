@@ -39,7 +39,6 @@ class checkGdriveFileProcessing(unittest.TestCase):
         """ check that drive service object is obtained """
         credentials = self.auth_inst.get_credentials()
         http = credentials.authorize(httplib2.Http())
-        print(type(discovery.build('drive', 'v3', http=http)))
         self.assertTrue(
             str(type(discovery.build('drive', 'v3', http=http))) == "<class 'googleapiclient.discovery.Resource'>")
 
@@ -48,7 +47,8 @@ class checkGdriveFileProcessing(unittest.TestCase):
         credentials = self.auth_inst.get_credentials()
         http = credentials.authorize(httplib2.Http())
         drive_service = discovery.build('drive', 'v3', http=http)
-        self.assertTrue(self.auth_inst.list_parent_files(drive_service) is not None)
+        parent_ids = self.auth_inst.list_parent_files(drive_service)
+        self.assertTrue(parent_ids is not None)
 
     def tearDown(self) -> None:
         """ bye bye """
