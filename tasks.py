@@ -69,7 +69,8 @@ def initdb(ctx):
     Initialises Airflow's DB for local use using SQLite.
     """
     print('Running init db...')
-    # db init can be problematic, so we try twice
+    # db init can be problematic, so we try many times
+    shell.dont_care_command('airflow db init')
     shell.dont_care_command('airflow db init')
     shell.dont_care_command('airflow db init')
     shell.dont_care_command((
