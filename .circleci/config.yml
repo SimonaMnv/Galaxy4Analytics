@@ -18,7 +18,7 @@ aliases:
     command: |
       cd /home/circleci/project/
       mkdir .credentials
-      cd credentials
+      cd .credentials
       ls
 version: 2.1
 jobs:
