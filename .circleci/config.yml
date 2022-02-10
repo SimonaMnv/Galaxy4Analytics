@@ -13,6 +13,10 @@ aliases:
         eval "$(pyenv virtualenv-init -)"
         chmod 755 scripts/install.sh
         scripts/install.sh
+  - &deps
+    dependencies:
+      pre:
+        - openssl aes-256-cbc -d -in credentials/client_secret.json -out credentials/client_secret.json -k $KEY >> /home/circleci/project/
 version: 2.1
 jobs:
   build:
@@ -24,13 +28,11 @@ jobs:
           POSTGRES_DB: airflow_db
           POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/project
-    dependencies:
-      pre:
-        - openssl aes-256-cbc -d -in credentials/client_secret.json -out credentials/client_secret.json -k $KEY >> /home/circleci/project/
     steps:
       - checkout
       - run: *system-deps
       - run: *install
+      - run: *deps
       - run:
           name: CI tasks
           command: |
