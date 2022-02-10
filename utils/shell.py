@@ -1,6 +1,9 @@
 from os import environ
 import subprocess
+import time
+import psutil
 from dotenv import dotenv_values
+import logging
 
 
 def db_host():
@@ -81,6 +84,66 @@ def command_no_suppress(cmd):
     """
     env = local_env()
     return subprocess.check_call(cmd, env=env, shell=True)
+
+
+def kill(cmd):
+    """
+    Terminates a previously started process
+    :param process: The process to kill
+    :type process: Popen
+    :param name: A name to match in the process list
+    :type name: string
+    :return: Nothing
+    :rtype: None
+    """
+    logging.info(f'Killing process for: {cmd}')
+    proc = get_process(cmd)
+    logging.debug(f'got process: {proc}')
+    if proc:
+        logging.debug('found process')
+        proc.send_signal(15)
+        proc.wait()
+        dont_care_command(f'kill -9 {proc.pid}')
+
+    kill_childs = f'ps ax | grep "{cmd}" | grep -v grep | grep -oE "^ *[0-9]+" | xargs kill -9'
+    dont_care_command(kill_childs)
+
+
+def get_process(cmd):
+    for proc in psutil.process_iter():
+        try:
+            # Check if process name contains the given name string.
+            cmd_str = ' '.join(proc.cmdline())
+            if cmd in cmd_str:
+                return proc
+        except Exception:
+            pass
+    return None
+
+
+def background_command(cmd):
+    """
+    Runs a local command in the background.
+    :param command: The command to execute
+    :type command: string
+    :return: Initial airflow scheduler process
+    :rtype: Popen
+    """
+    env = local_env()
+    logging.info('Shell background command for: {}'.format(cmd))
+    logging.debug('With env: {}'.format(env))
+    process = subprocess.Popen(cmd, env=env, shell=True)
+    logging.debug('Shell background command start with PID: {}'.format(process.pid))
+    time.sleep(5)
+    if not is_running(process):
+        logging.error('Background process has ended early!')
+        raise Exception('Process has ended early!')
+    logging.debug('Background process has passed running check')
+    return process
+
+
+def is_running(proc):
+    return proc.poll() is None
 
 
 def command(cmd):

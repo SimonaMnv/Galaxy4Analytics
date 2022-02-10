@@ -127,10 +127,10 @@ def resetdb(ctx):
     shell.command_no_suppress('invoke initdb')
 
 
-@task(scheduler, webserver)
+@task
 def test_dag(ctx):
     """ Run dag system tests """
-    print('Running dag system tests...')
+    print('Running dag tests...')
     # todo: implement this
 
 
