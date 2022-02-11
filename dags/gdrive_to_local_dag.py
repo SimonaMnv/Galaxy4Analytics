@@ -17,7 +17,7 @@ params = {
     "LIST_FILE_SIZE": "10",
     "SCOPES": "https://www.googleapis.com/auth/drive",
     "CLIENT_SECRET_FILE_DIR": project_root + "/credentials",
-    "CLIENT_SECRET_FILE": project_root + '/credentials/client_secrets.json',
+    "CLIENT_SECRET_FILE": project_root + '/credentials/service_account_key.json',
     "APPLICATION_NAME": "GDrive API",
     "PARENT_FILES": ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
 }
