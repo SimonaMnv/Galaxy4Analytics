@@ -7,7 +7,6 @@ flake8
 wheel
 tailhead
 oauth2client
-google-auth
+six
 psutil
-google-api-python-client
 pyhamcrest
