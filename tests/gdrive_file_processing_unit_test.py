@@ -30,6 +30,11 @@ class checkGdriveFileProcessing(unittest.TestCase):
         """ check if number of params passed are 6 """
         self.assertTrue(len(self.params) == 6)
 
+    def test_credentials_exist(self):
+        """ check if credentials exist either via env variable or through file """
+        self.assertTrue(True if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None or os.path.exists(
+            project_root + "/credentials/google-drive-credentials.json") else False == True)
+
     def test_get_creds_object_obtained(self):
         """ check if credentials object is obtained """
         self.assertTrue(
