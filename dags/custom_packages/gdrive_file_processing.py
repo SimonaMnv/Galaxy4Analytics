@@ -30,7 +30,7 @@ class Auth2Drive:
         # In this order, to first get credentials from env -> safety reasons (for circleci)
         # circleci context is used to insert the google-drive-credentials as a hidden env key
         if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None:
-            credentials = client.Credentials.new_from_json(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
+            credentials = client.Credentials.new_from_json(str(os.environ["GOOGLE_DRIVE_CREDENTIALS"]))
             credentials.set_store(self)
         else:
             # for local builds
