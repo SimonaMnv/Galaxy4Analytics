@@ -9,21 +9,26 @@ from dags.custom_packages.gdrive_file_processing import Auth2Drive
 
 project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
-""" unit tests on gdrive_file_processing_test.py  """
+""" unit tests on gdrive_file_processing_unit_test.py -> can't mock this, so connection reliant we are """
 
 
 class checkGdriveFileProcessing(unittest.TestCase):
     def setUp(self):
         """ set up a class instance """
-        self.auth_inst = Auth2Drive(
+        self.params = [
             "10",
             "https://www.googleapis.com/auth/drive",
             project_root + "/credentials",
             project_root + "/credentials/google-drive-credentials.json",
             "GDrive API",
             ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
-        )
+        ]
+        self.auth_inst = Auth2Drive(*self.params)
         print("setUp is running")
+
+    def test_number_of_params(self):
+        """ check if number of params passed are 6 """
+        self.assertTrue(len(self.params) == 6)
 
     def test_get_creds_object_obtained(self):
         """ check if credentials object is obtained """
@@ -42,13 +47,13 @@ class checkGdriveFileProcessing(unittest.TestCase):
         self.assertTrue(
             str(type(discovery.build('drive', 'v3', http=http))) == "<class 'googleapiclient.discovery.Resource'>")
 
-    # def test_get_parents(self):
-    #     """ check if list_parent_files is not None """
-    #     credentials = self.auth_inst.get_credentials()
-    #     http = credentials.authorize(httplib2.Http())
-    #     drive_service = discovery.build('drive', 'v3', http=http)
-    #     parent_ids = self.auth_inst.list_parent_files(drive_service)
-    #     self.assertTrue(parent_ids is not None)
+    def test_get_parents(self):
+        """ check if list_parent_files is not None, so basically we get something back by connection to GDrive """
+        credentials = self.auth_inst.get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        drive_service = discovery.build('drive', 'v3', http=http)
+        parent_ids = self.auth_inst.list_parent_files(drive_service)
+        self.assertTrue(parent_ids is not None)
 
     def tearDown(self) -> None:
         """ bye bye """

@@ -8,4 +8,4 @@ For the first auth, it will pop up a google account window to manually authentic
 # TODO
 1. add unit test, integration test, coverage
 2. work on  tasks.py -> fix circleci CI
-3. firebase init // firebase deploy 
+3. firebase init // firebase deploy with js
