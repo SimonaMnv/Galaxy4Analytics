@@ -32,8 +32,8 @@ class checkGdriveFileProcessing(unittest.TestCase):
 
     def test_credentials_exist(self):
         """ check if credentials exist either via env variable or through file """
-        exists = True if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None \
-                         or os.path.exists(project_root + "/credentials/google-drive-credentials.json") else False
+        exists = True if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None or os.path.exists(
+            project_root + "/credentials/google-drive-credentials.json") else False
         self.assertTrue(exists)
 
     def test_get_creds_object_obtained(self):
@@ -60,17 +60,6 @@ class checkGdriveFileProcessing(unittest.TestCase):
         drive_service = discovery.build('drive', 'v3', http=http)
         parent_ids = self.auth_inst.list_parent_files(drive_service)
         self.assertTrue(parent_ids is not None)
-
-    # credentials = auth_inst.get_credentials()
-    # http = credentials.authorize(httplib2.Http())
-    # drive_service = discovery.build('drive', 'v3', http=http)
-    #
-    # parent_ids = auth_inst.list_parent_files(drive_service)
-    # children_ids = auth_inst.list_children_files(parent_ids, drive_service)
-    #
-    # full_list = []
-    # for child in children_ids:
-    #     full_list.extend(child)
 
     def tearDown(self) -> None:
         """ bye bye """
