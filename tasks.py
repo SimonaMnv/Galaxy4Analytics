@@ -101,7 +101,7 @@ def resetdb(ctx):
 @task
 def test_dag(ctx):
     """
-        Run dag system tests
+    Run dag system tests
     """
     print('Running dag tests...')
     shell.command_no_suppress('python -m unittest discover -s tests -p "gdrive_to_local_dag_test.py" -v')
@@ -125,7 +125,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_dag)
+@task(grant_pg_db, lint, test_unit, test_dag)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.

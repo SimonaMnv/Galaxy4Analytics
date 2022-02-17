@@ -1,7 +1,10 @@
 import unittest
 
+# from airflow import DAG
 from airflow.models import DagBag
+# from airflow.operators.python import PythonOperator
 
+# from dags.gdrive_to_local_dag import authorize_and_get_file_info
 from utils.dag_test import DagRunTester
 
 
@@ -26,16 +29,17 @@ class CheckGDriveToLocalDag(unittest.TestCase):
 
     # def test_build_message(self):
     #     """ test authorize_and_get_file_info task """
-    #     DagRunTester
-    #     dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
+    #     self.dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
     #
     #     _ = PythonOperator(
     #         task_id='authorize_and_list_files',
-    #         python_callable=authorize_and_get_file_info
+    #         python_callable=authorize_and_get_file_info,
+    #         dag=self.dag
     #     )
-    #     ti = self.dagrun_harness.get_task_instance(dag, "authorize_and_list_files")
+    #
+    #     ti = self.dagrun_harness.get_task_instance(self.dag, "authorize_and_list_files")
     #     ti.run()
     #
     #     # after the run, the results should provide us with a list
     #     results = ti.xcom_pull(key='children_id_name')
-    #     self.assertGreater(results, 0, 'authorize_and_get_file_info passed testing...')
+    #     self.assertTrue(results is not None, msg='returned list is not null')
