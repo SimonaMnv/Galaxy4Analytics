@@ -20,6 +20,12 @@ aliases:
       mkdir credentials
       cd credentials
       ls
+  - &checkFile
+    name: Chack content
+    command: |
+      ls ./dags
+      ls /dags
+      ls
 version: 2.1
 jobs:
   build:
@@ -56,6 +62,7 @@ jobs:
             chmod 755 scripts/setup_python.sh
             scripts/setup_python.sh
             invoke ci
+      - run: *checkFile
 workflows:
   build-and-deploy:
     jobs:
