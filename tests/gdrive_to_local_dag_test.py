@@ -1,12 +1,8 @@
 import unittest
 
-from airflow import DAG
 from airflow.models import DagBag
-from airflow.operators.python import PythonOperator
 
 from utils.dag_test import DagRunTester
-
-from dags.gdrive_to_local_dag import authorize_and_get_file_info
 
 
 def dags():
