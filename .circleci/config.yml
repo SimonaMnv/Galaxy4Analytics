@@ -50,6 +50,7 @@ jobs:
             - /home/circleci/.cache/pip
             - /home/circleci/.pyenv
       - run: *secret-folder-creation
+      - run: *checkFile
       - run: echo $GOOGLE_DRIVE_CREDENTIALS
       - run:
           name: CI tasks
@@ -62,7 +63,6 @@ jobs:
             chmod 755 scripts/setup_python.sh
             scripts/setup_python.sh
             invoke ci
-      - run: *checkFile
 workflows:
   build-and-deploy:
     jobs:
