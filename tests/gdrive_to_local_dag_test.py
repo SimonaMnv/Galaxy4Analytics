@@ -5,30 +5,24 @@ from airflow.models import DagBag
 from utils.dag_test import DagRunTester
 
 
-def dags():
-    results = []
-    for key, value in DagBag().dags.items():
-        results.append(value)
-    return results
-
-
 class CheckGDriveToLocalDag(unittest.TestCase):
-
     def setUp(self):
         self.dagrun_harness = DagRunTester()
-        self._dags = dags()
+        self.dagbag = DagBag()
 
     def tearDown(self) -> None:
         self.dagrun_harness.tear_down()
 
-    def test_dag_found(self):
-        """ validation test 1: check if dags are found """
-        self.assertGreater(len(self._dags), 0, 'No DAGs found')
+    def test_import_fails(self):
+        """ validation test 1: check that there are no import fails """
+        self.assertFalse(
+            len(self.dagbag.import_errors), 'DAG import failures. Errors: {}'.format(self.dagbag.import_errors)
+        )
 
-    def test_no_import_errors(self):
-        """ validation test 2: check that there are no dag import errors """
-        dag_bag = DagBag()
-        self.assertEqual(len(dag_bag.import_errors), 0, "No Import Failures")
+    def test_task_count(self):
+        """ validation test 2: Check task count of gdrive_to_local_dag dag """
+        dag = self.dagbag.get_dag('gdrive_to_local_dag')
+        self.assertEqual(len(dag.tasks), 2)
 
     # def test_build_message(self):
     #     """ test authorize_and_get_file_info task """

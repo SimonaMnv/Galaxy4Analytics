@@ -12,7 +12,7 @@ project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 """ unit tests on gdrive_file_processing_unit_test.py -> can't mock this, so connection reliant we are """
 
 
-class checkGdriveFileProcessing(unittest.TestCase):
+class CheckGdriveFileProcessing(unittest.TestCase):
     def setUp(self):
         """ set up a class instance """
         self.params = [

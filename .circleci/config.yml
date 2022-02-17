@@ -24,6 +24,7 @@ aliases:
     name: Chack /dags content
     command: |
       ls ./dags
+      ls /home/circleci/project/dags
 version: 2.1
 jobs:
   build:
