@@ -34,18 +34,18 @@ class CheckGDriveToLocalDag(unittest.TestCase):
         dag_bag = DagBag()
         self.assertEqual(len(dag_bag.import_errors), 0, "No Import Failures")
 
-    def test_build_message(self):
-        """ test authorize_and_get_file_info task """
-        DagRunTester
-        dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
-
-        _ = PythonOperator(
-            task_id='authorize_and_list_files',
-            python_callable=authorize_and_get_file_info
-        )
-        ti = self.dagrun_harness.get_task_instance(dag, "authorize_and_list_files")
-        ti.run()
-
-        # after the run, the results should provide us with a list
-        results = ti.xcom_pull(key='children_id_name')
-        self.assertGreater(results, 0, 'authorize_and_get_file_info passed testing...')
+    # def test_build_message(self):
+    #     """ test authorize_and_get_file_info task """
+    #     DagRunTester
+    #     dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
+    #
+    #     _ = PythonOperator(
+    #         task_id='authorize_and_list_files',
+    #         python_callable=authorize_and_get_file_info
+    #     )
+    #     ti = self.dagrun_harness.get_task_instance(dag, "authorize_and_list_files")
+    #     ti.run()
+    #
+    #     # after the run, the results should provide us with a list
+    #     results = ti.xcom_pull(key='children_id_name')
+    #     self.assertGreater(results, 0, 'authorize_and_get_file_info passed testing...')
