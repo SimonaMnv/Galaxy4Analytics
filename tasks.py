@@ -35,17 +35,6 @@ def clean(ctx):
 
 
 @task
-def setup_local_airflow(ctx):
-    """
-    Prepare the shell for running local airflow commands
-    """
-    print('echo "Running setup_local_airflow...";')
-    for key, val in shell.shell_env().items():
-        print('export {}="{}";'.format(key, val))
-    print('echo "...Shell ready";')
-
-
-@task
 def initdb(ctx):
     """
     Initialises Airflow's DB for local use using SQLite.

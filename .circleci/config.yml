@@ -20,6 +20,10 @@ aliases:
       mkdir credentials
       cd credentials
       ls
+  - &copy-over-files
+    name: Copy over Files
+    command: |
+      cd
 version: 2.1
 jobs:
   build:

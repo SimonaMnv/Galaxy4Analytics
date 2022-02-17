@@ -1,8 +1,12 @@
+import os
 import unittest
 
 from airflow.models import DagBag
 
 from utils.dag_test import DagRunTester
+
+
+project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
 
 
 def dags():
