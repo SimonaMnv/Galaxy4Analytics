@@ -20,6 +20,10 @@ aliases:
       mkdir credentials
       cd credentials
       ls
+  - &check-dags-file
+    name: Chack /dags content
+    command: |
+      ls /home/circleci/project/dags
 version: 2.1
 jobs:
   build:
@@ -44,6 +48,7 @@ jobs:
             - /home/circleci/.cache/pip
             - /home/circleci/.pyenv
       - run: *secret-folder-creation
+      - run: *check-dags-file
       - run: echo $GOOGLE_DRIVE_CREDENTIALS
       - run:
           name: CI tasks

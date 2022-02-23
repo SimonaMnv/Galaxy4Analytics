@@ -6,7 +6,7 @@ from airflow.operators.python import PythonOperator
 from airflow.providers.google.suite.hooks.drive import GoogleDriveHook
 from googleapiclient import discovery
 
-from custom_packages import gdrive_file_processing
+from custom_packages.gdrive_file_processing import Auth2Drive
 
 import os
 
@@ -29,7 +29,7 @@ def authorize_and_get_file_info(**context):
     Gets the children id's based on the defined parent id's (root folders) in /config to list the children files we need
     :return:
     """
-    auth_inst = gdrive_file_processing.Auth2Drive(
+    auth_inst = Auth2Drive(
         params['LIST_FILE_SIZE'],
         params['SCOPES'],
         params['CLIENT_SECRET_FILE_DIR'],
@@ -72,6 +72,9 @@ def download_files(**context):
                                  .replace(' ', '_'), "wb")
             )
         )
+
+    # for the dag test of this function
+    context['task_instance'].xcom_push(key="downloaded_files_len", value=len(task_list))
 
 
 with DAG(
