@@ -6,6 +6,5 @@ For the first auth, it will pop up a google account window to manually authentic
 - Make sure that the file(s) or main dir that you want to access has the option Link sharing on (Get Shareable Link option, and turn on Link Sharing)
 
 # TODO
-1. add unit test, integration test, coverage
-2. work on  tasks.py -> fix circleci CI
-3. firebase init // firebase deploy with js
+1. dag tests work locally but not in circleci
+2. firebase init // firebase deploy with js

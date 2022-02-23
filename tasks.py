@@ -125,7 +125,8 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-@task(grant_pg_db, lint, test_unit, test_dag)
+# todo: fix: test_dag is skipped because they don't run in circleci
+@task(grant_pg_db, lint, test_unit)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.

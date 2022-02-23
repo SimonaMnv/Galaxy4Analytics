@@ -73,6 +73,9 @@ def download_files(**context):
             )
         )
 
+    # for the dag test of this function
+    context['task_instance'].xcom_push(key="downloaded_files_len", value=len(task_list))
+
 
 with DAG(
         dag_id='gdrive_to_local_dag',
