@@ -122,7 +122,8 @@ def test_coverage(ctx):
     test coverage
     """
     print('Running test coverage...')
-    shell.command_no_suppress('coverage run --branch -m unittest tests/gdrive_to_local_dag_test.py')
+    shell.command_no_suppress('coverage run --branch -m unittest tests/gdrive_file_processing_unit_test.py')
+    # coverage run - -branch - m unittest discover -s tests - p "*_test.py"
 
 
 @task(test_coverage)
