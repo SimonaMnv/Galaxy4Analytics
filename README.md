@@ -6,5 +6,5 @@ For the first auth, it will pop up a google account window to manually authentic
 - Make sure that the file(s) or main dir that you want to access has the option Link sharing on (Get Shareable Link option, and turn on Link Sharing)
 
 # TODO
-1. dag tests work locally but not in circleci
+1. dag tests work locally but not in circleci (same for coverage)
 2. firebase init // firebase deploy with js
