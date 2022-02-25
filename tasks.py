@@ -132,7 +132,7 @@ def coverage(ctx):
     test coverage report
     """
     print('Running test coverage report...')
-    shell.command_no_suppress('coverage report --skip-empty --omit="*_test.py" --fail-under=70 -ms')
+    shell.command_no_suppress('coverage report --skip-empty --fail-under=70 -m')
 
 
 @task
