@@ -115,6 +115,7 @@ def test_unit(ctx):
     print('Running unit tests...')
     shell.command_no_suppress('python -m unittest discover -s tests -p "gdrive_file_processing_unit_test.py" -v')
 
+
 @task
 def test_coverage(ctx):
     """
