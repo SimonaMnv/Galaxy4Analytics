@@ -115,6 +115,15 @@ def test_unit(ctx):
     print('Running unit tests...')
     shell.command_no_suppress('python -m unittest discover -s tests -p "gdrive_file_processing_unit_test.py" -v')
 
+@task
+def test_coverage(ctx):
+    """
+    test coverage
+    """
+    print('Running test coverage...')
+    shell.command_no_suppress('coverage run --branch -m unittest discover -s  tests -p "*_test.py" && coverage report '
+                              '-m')
+
 
 @task
 def lint(ctx):
@@ -126,7 +135,7 @@ def lint(ctx):
 
 
 # todo: fix: test_dag is skipped because they don't run in circleci
-@task(grant_pg_db, lint, test_unit)
+@task(grant_pg_db, lint, test_unit, test_coverage)
 def ci(ctx):
     """
     Run all the applicable tests that our CI process runs.
