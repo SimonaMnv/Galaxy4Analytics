@@ -134,7 +134,6 @@ def coverage(ctx):
     shell.command_no_suppress('coverage report --skip-empty --omit="*_test.py" --fail-under=70 -ms')
 
 
-
 @task
 def lint(ctx):
     """
