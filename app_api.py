@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from utils import error_handler
 from models.wearer_model import Wearer, db
 from utils.error_handler import CustomError
@@ -12,6 +12,7 @@ ENV = 'prod'
 heroku_db = os.environ.get("DATABASE_URL")
 
 if ENV == 'dev':
+    app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost/galaxy4analytics'
 else:
     app.debug = False
@@ -70,4 +71,4 @@ def handle_bad_request(error):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1234, debug=True)
+    app.run(host='0.0.0.0', port=1234)

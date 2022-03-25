@@ -9,7 +9,7 @@ tailhead
 psutil
 pyhamcrest
 oauth2client
-Flask 
+Flask
 Flask-SQLAlchemy
 SQLAlchemy
 Werkzeug
