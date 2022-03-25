@@ -4,7 +4,40 @@
 For the first auth, it will pop up a google account window to manually authenticate the connection & then it will create the "google-drive-credentials.json" in /credentials to automatically log in next time
 - Go in airflow connections and create a new connection with connection_id: google_drive_conn, connection_type: Google cloud, Number of retries: whatever, Scopes: https://www.googleapis.com/auth/drive
 - Make sure that the file(s) or main dir that you want to access has the option Link sharing on (Get Shareable Link option, and turn on Link Sharing)
+- Connect the heroku db to the app
+- Run below commands in heroku cli: 
+    ```
+   Setup Heroku Config
+
+       heroku config -a heroku-airflow
+
+       heroku config:set AIRFLOW__CORE__SQL_ALCHEMY_CONN = "postgresql://" 
+       heroku config:set AIRFLOW__CORE__LOAD_EXAMPLES=False -a heroku-airflow
+       heroku config:set AIRFLOW_HOME=/app -a heroku-airflow
+
+       Run this line in Python
+
+       >>>from cryptography.fernet import Fernet; 
+       >>>print(Fernet.generate_key().decode())
+
+             5KaIPunwNmSisZ48JIhfsZoHTlgZ6qGgt4Hq0yUGxN8=
+
+       heroku config:set AIRFLOW__CORE__FERNET_KEY=<secret_key> -a heroku-airflow
+  ```
+  also do: 
+    ```
+    1. heroku run bash --app <APP_NAME> 
+    2. airflow db init
+    3. airflow users create -u dev -p dev -r Admin -f dev -l dev -e <blabla>@gmail.com
+    
+    Setup Additional Heroku Config:   
+        heroku config:set AIRFLOW__WEBSERVER__AUTHENTICATE=True -a heroku-airflow
+        heroku config:set AIRFLOW__WEBSERVER__AUTH_BACKEND=airflow.contrib.auth.backends.password_auth -a heroku-airflow
+    ```
+  read mode here: https://github.com/arboiscodemedia/Heruko-Airflow-Requisite/blob/main/Step3%20-%20Deploy%20to%20Heroku.txt
+
+
+// if any db table issue (X table not found) appears, run <airflow db reset> in heroku run bash
 
 # TODO
 1. dag tests work locally but not in circleci (same for coverage)
-2. firebase init // firebase deploy with js
