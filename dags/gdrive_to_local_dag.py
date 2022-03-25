@@ -13,12 +13,12 @@ import os
 ENV = 'prod'
 
 project_root = os.path.dirname(os.path.dirname(__file__))
-heroku_google_credentials = os.environ.get("GOOGLE_DRIVE_APPLICATION_HEROKU_CREDENTIALS")
-
-if ENV == 'dev':
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
-else:
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = heroku_google_credentials
+# heroku_google_credentials = os.environ.get("GOOGLE_DRIVE_APPLICATION_HEROKU_CREDENTIALS")
+#
+# if ENV == 'dev':
+#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
+# else:
+#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = heroku_google_credentials
 
 params = {
     "LIST_FILE_SIZE": "10",
@@ -70,7 +70,7 @@ def download_files(**context):
     task_count = 0
 
     # use heroku's ephemeral filesystem, wipes files on restart
-    os.makedirs('~/tmp/downloaded_dataset/')
+    os.makedirs('~/tmp/downloaded_dataset/', exist_ok=True)
     file_loc = project_root + '/downloaded_dataset/' if ENV == 'dev' else '~/tmp/downloaded_dataset/'
 
     for child_info in children_info:
