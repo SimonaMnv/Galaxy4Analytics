@@ -25,9 +25,15 @@ For the first auth, it will pop up a google account window to manually authentic
        heroku config:set AIRFLOW__CORE__FERNET_KEY=<secret_key> -a heroku-airflow
   ```
   also do: 
-      1. heroku run bash --app <APP_NAME> and then airflow db init
-      2. airflow users create -u dev -p dev -r Admin -f dev -l dev -e <blabla>@gmail.com
-
+    ```
+    1. heroku run bash --app <APP_NAME> 
+    2. airflow db init
+    3. airflow users create -u dev -p dev -r Admin -f dev -l dev -e <blabla>@gmail.com
+    
+    Setup Additional Heroku Config:   
+        heroku config:set AIRFLOW__WEBSERVER__AUTHENTICATE=True -a heroku-airflow
+        heroku config:set AIRFLOW__WEBSERVER__AUTH_BACKEND=airflow.contrib.auth.backends.password_auth -a heroku-airflow
+    ```
   read mode here: https://github.com/arboiscodemedia/Heruko-Airflow-Requisite/blob/main/Step3%20-%20Deploy%20to%20Heroku.txt
 
 # TODO
