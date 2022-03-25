@@ -23,7 +23,8 @@ For the first auth, it will pop up a google account window to manually authentic
              5KaIPunwNmSisZ48JIhfsZoHTlgZ6qGgt4Hq0yUGxN8=
 
        heroku config:set AIRFLOW__CORE__FERNET_KEY=<secret_key> -a heroku-airflow
-
   ```
+  read mode here: https://github.com/arboiscodemedia/Heruko-Airflow-Requisite/blob/main/Step3%20-%20Deploy%20to%20Heroku.txt
+
 # TODO
 1. dag tests work locally but not in circleci (same for coverage)

@@ -17,4 +17,5 @@ def file_parse_db_store():
         time = str(datum['time'])
         heart_rate = str(datum['heart_rate'])
 
+        print(date, time, heart_rate)
     # todo: insert data to heroku db
