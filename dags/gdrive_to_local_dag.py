@@ -69,12 +69,15 @@ def download_files(**context):
     task_list = []
     task_count = 0
 
+    # use heroku's ephemeral filesystem, wipes files on restart
+    file_loc = project_root + '/downloaded_dataset/' if ENV == 'dev' else '~/tmp/downloaded_dataset/'
+
     for child_info in children_info:
         task_count += 1
         task_list.append(
             hook.download_file(
                 file_id=child_info['id'],
-                file_handle=open(project_root + '/downloaded_dataset/' + str(child_info['name'])
+                file_handle=open(file_loc + str(child_info['name'])
                                  .replace('/', '-')
                                  .replace(' ', '_'), "wb+")
             )
