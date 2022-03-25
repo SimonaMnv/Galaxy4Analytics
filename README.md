@@ -4,7 +4,26 @@
 For the first auth, it will pop up a google account window to manually authenticate the connection & then it will create the "google-drive-credentials.json" in /credentials to automatically log in next time
 - Go in airflow connections and create a new connection with connection_id: google_drive_conn, connection_type: Google cloud, Number of retries: whatever, Scopes: https://www.googleapis.com/auth/drive
 - Make sure that the file(s) or main dir that you want to access has the option Link sharing on (Get Shareable Link option, and turn on Link Sharing)
+- Connect the heroku db to the app
+- Run below commands in heroku cli: 
+    ```
+   Setup Heroku Config
 
+       heroku config -a heroku-airflow
+
+       heroku config:set AIRFLOW__CORE__SQL_ALCHEMY_CONN = "postgresql://" 
+       heroku config:set AIRFLOW__CORE__LOAD_EXAMPLES=False -a heroku-airflow
+       heroku config:set AIRFLOW_HOME=/app -a heroku-airflow
+
+       Run this line in Python
+
+       >>>from cryptography.fernet import Fernet; 
+       >>>print(Fernet.generate_key().decode())
+
+             5KaIPunwNmSisZ48JIhfsZoHTlgZ6qGgt4Hq0yUGxN8=
+
+       heroku config:set AIRFLOW__CORE__FERNET_KEY=<secret_key> -a heroku-airflow
+
+  ```
 # TODO
 1. dag tests work locally but not in circleci (same for coverage)
-2. firebase init // firebase deploy with js
