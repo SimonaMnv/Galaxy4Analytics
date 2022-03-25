@@ -1,2 +1,3 @@
-release: airflow db init
-web: sh -c 'gunicorn app_api:app && airflow webserver && airflow scheduler'
+web: gunicorn app_api:app && airflow initdb && airflow webserver
+worker: airflow worker
+scheduler: airflow scheduler
