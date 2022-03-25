@@ -4,6 +4,8 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from oauth2client import client
 
+ENV = 'prod'
+
 
 class Auth2Drive:
     def __init__(self, size, scopes, client_secret_file_dir, client_secret_file, application_name, filter_files):
@@ -22,6 +24,7 @@ class Auth2Drive:
         Returns:
             Credentials, the obtained credential.
         """
+
         cwd_dir = os.getcwd()
         credential_dir = os.path.join(cwd_dir, self.CLIENT_SECRET_FILE_DIR)
         if not os.path.exists(credential_dir):
@@ -31,8 +34,8 @@ class Auth2Drive:
         # circleci context is used to insert the google-drive-credentials as a hidden env key
         if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None:
             credentials = client.OAuth2Credentials.from_json(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
-        else:
-            # for local builds
+        elif ENV == 'dev':
+            # for local builds -> dev env
             credential_path = os.path.join(credential_dir, 'google-drive-credentials.json')
             store = Storage(credential_path)
             credentials = store.get()
@@ -43,6 +46,9 @@ class Auth2Drive:
                 flow.user_agent = self.APPLICATION_NAME
                 credentials = tools.run_flow(flow, store)
                 print('Storing credentials to ' + credential_path)
+        else:
+            # for prod builds -> heroku env
+            credentials = client.OAuth2Credentials.from_json(os.environ["GOOGLE_DRIVE_HEROKU_CREDENTIALS"])
 
         return credentials
 

@@ -9,3 +9,9 @@ tailhead
 psutil
 pyhamcrest
 oauth2client
+Flask==2.0.3
+Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.32
+Werkzeug==2.0.3
+psycopg2==2.9.3
+gunicorn==20.1.0
