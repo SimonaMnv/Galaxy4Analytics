@@ -13,12 +13,10 @@ import os
 ENV = 'prod'
 
 project_root = os.path.dirname(os.path.dirname(__file__))
-# heroku_google_credentials = os.environ.get("GOOGLE_DRIVE_APPLICATION_HEROKU_CREDENTIALS")
-#
-# if ENV == 'dev':
-#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
-# else:
-#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = heroku_google_credentials
+
+if ENV == 'dev':
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
+
 
 params = {
     "LIST_FILE_SIZE": "10",
