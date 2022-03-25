@@ -6,6 +6,8 @@ from models.wearer_model import Wearer, db
 from utils.error_handler import CustomError
 from utils.file_parsing import file_parse
 
+# Each Heroku dyno gets allocated a single public network port, which you can get from the $PORT variable,
+# so this has to be in another app to work
 app = Flask(__name__)
 
 ENV = 'prod'

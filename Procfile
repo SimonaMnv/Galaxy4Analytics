@@ -1,3 +1,3 @@
-web: gunicorn app_api:app && airflow initdb && airflow webserver
+web: airflow webserver -p $PORT
 worker: airflow worker
 scheduler: airflow scheduler
