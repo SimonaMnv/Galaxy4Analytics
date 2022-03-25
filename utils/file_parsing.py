@@ -18,4 +18,4 @@ def file_parse_db_store():
         heart_rate = str(datum['heart_rate'])
 
         print(date, time, heart_rate)
-    # todo: insert data to heroku db
+    # todo: insert data to heroku db, then os delete the "downloaded_dataset" file
