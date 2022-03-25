@@ -11,3 +11,4 @@ pyhamcrest
 oauth2client
 pandas
 cryptography
+celery
