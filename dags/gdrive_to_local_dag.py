@@ -76,7 +76,7 @@ def download_files(**context):
                 file_id=child_info['id'],
                 file_handle=open(project_root + '/downloaded_dataset/' + str(child_info['name'])
                                  .replace('/', '-')
-                                 .replace(' ', '_'), "wb")
+                                 .replace(' ', '_'), "wb+")
             )
         )
 

@@ -37,7 +37,7 @@ For the first auth, it will pop up a google account window to manually authentic
   read mode here: https://github.com/arboiscodemedia/Heruko-Airflow-Requisite/blob/main/Step3%20-%20Deploy%20to%20Heroku.txt
 
 
-// if any db table issue (X table not found) appears, run <airflow db reset> in heroku run bash
+// if any db table issue (X table not found) appears, run "airflow db reset" in heroku run bash
 
 # TODO
 1. dag tests work locally but not in circleci (same for coverage)
