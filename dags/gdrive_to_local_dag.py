@@ -70,7 +70,8 @@ def download_files(**context):
     task_count = 0
 
     # use heroku's ephemeral filesystem, wipes files on restart
-    file_loc = project_root + '/downloaded_dataset/' if ENV == 'dev' else '/tmp/downloaded_dataset/'
+    os.makedirs('~/tmp/downloaded_dataset/')
+    file_loc = project_root + '/downloaded_dataset/' if ENV == 'dev' else '~/tmp/downloaded_dataset/'
 
     for child_info in children_info:
         task_count += 1
@@ -79,7 +80,7 @@ def download_files(**context):
                 file_id=child_info['id'],
                 file_handle=open(file_loc + str(child_info['name'])
                                  .replace('/', '-')
-                                 .replace(' ', '_'), "wb+")
+                                 .replace(' ', '_'), "wb")
             )
         )
 
