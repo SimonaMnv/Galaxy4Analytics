@@ -28,7 +28,7 @@ For the first auth, it will pop up a google account window to manually authentic
     ```
     1. heroku run bash --app <APP_NAME> 
     2. airflow db init
-    3. airflow users create -u dev -p dev -r Admin -f dev -l dev -e <blabla>@gmail.com
+    3. airflow users create -u "username_here" -p "password_here" -r Admin -f "first_name_here" -l "last_name_here" -e "email_here"@gmail.com
     
     Setup Additional Heroku Config:   
         heroku config:set AIRFLOW__WEBSERVER__AUTHENTICATE=True -a heroku-airflow
