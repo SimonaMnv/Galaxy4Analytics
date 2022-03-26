@@ -4,6 +4,7 @@ A complete flow of tasks to:
 2. Download user specified files locally ```(file_handlers.py)```
 3. Parse them in any way and store them in postgres DB ````(file_parsing.py)````
 4. The above flow created as airflow tasks to automate the process ```(gdrive_to_local_dag.py)```
+5. Tests for all of the above
 
 # Installation
 - Set "dags_folder" in config.cfg to point to this project's roots folder dags
