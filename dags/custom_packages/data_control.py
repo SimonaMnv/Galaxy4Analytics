@@ -4,20 +4,11 @@ import pandas as pd
 import psycopg2
 from airflow import AirflowException
 
-if config['ENV'] == 'prod':
-    connection_params = config['database_url']
-else:
-    connection_params = """dbname={dbname} user={user} password={password} host={host}""".format(
-                        dbname=config['postgresql_modes']['local']['dbname'],
-                        user=config['postgresql_modes']['local']['user'],
-                        password=config['postgresql_modes']['local']['password'],
-                        host=config['postgresql_modes']['local']['host'])
-
 
 class DBControl:
-    def __init__(self, connection_params):
+    def __init__(self, db_connection_params):
         """ circleci_connection for circleci build variables when unit testing """
-        self.conn = psycopg2.connect(connection_params)
+        self.conn = psycopg2.connect(db_connection_params)
         self.cur = self.conn.cursor()
 
     def check_db_connection_status(self):

@@ -7,11 +7,7 @@ from dags.custom_packages.config_vars import config
 class CheckDataControl(unittest.TestCase):
     def setUp(self):
         """ Setup connection to local DB """
-        self.db_control = DBControl("""dbname={dbname} user={user} password={password} host={host}""".format(
-                                    dbname=config['postgresql_modes']['circleci']['dbname'],
-                                    user=config['postgresql_modes']['circleci']['user'],
-                                    password=config['postgresql_modes']['circleci']['password'],
-                                    host=config['postgresql_modes']['circleci']['host']))
+        self.db_control = DBControl(config['postgresql_circleci'])
         print("setUp is running")
 
     def test_check_db_connection_status(self):

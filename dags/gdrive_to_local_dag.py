@@ -4,8 +4,11 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from custom_packages.file_handlers import get_file_info, download_files_locally, authorize, check_gdrive_auth
-
 from custom_packages.data_control import DBControl
+from custom_packages.config_vars import config
+
+
+db_connection_params = config['database_url'] if config['ENV'] == 'prod' else config['postgresql_local']
 
 with DAG(
         dag_id='gdrive_to_local_dag',
@@ -16,7 +19,7 @@ with DAG(
         tags=['gdrive'],
 ) as dag:
     drive_service = authorize()
-    db_control = DBControl()
+    db_control = DBControl(db_connection_params)
 
     check_authorization = PythonOperator(
         task_id='check_gdrive_auth',
