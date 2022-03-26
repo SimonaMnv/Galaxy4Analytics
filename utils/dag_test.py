@@ -15,7 +15,7 @@ LOG = logging.getLogger(__file__)
 
 class DagRunTester:
     """Manage a DagRun to provide access to TaskInstances for unit testing,
-    when an Actuial Dag Run and Task Instances are required.
+    when an Actual Dag Run and Task Instances are required.
 
     Copies the example here
     https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html#dag-loader-test
