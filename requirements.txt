@@ -11,3 +11,4 @@ pyhamcrest
 oauth2client==3.0.0
 pandas
 cryptography
+psycopg2-binary
