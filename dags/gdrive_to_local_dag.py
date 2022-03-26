@@ -5,7 +5,7 @@ from airflow.operators.python import PythonOperator
 
 from custom_packages.file_handlers import get_file_info, download_files_locally, authorize, check_gdrive_auth
 
-from custom_packages.file_parsing import DBControl
+from custom_packages.data_control import DBControl
 
 with DAG(
         dag_id='gdrive_to_local_dag',
@@ -46,11 +46,11 @@ with DAG(
         python_callable=db_control.create_table_if_not_exists
     )
 
-    store_to_heroku_db = PythonOperator(
-        task_id='store_files_to_postgres',
-        python_callable=DBControl.store_files_to_postgres
+    store_heart_rate_to_db = PythonOperator(
+        task_id='store_heart_rate_to_postgres',
+        python_callable=db_control.store_heart_rate_to_postgres
     )
 
     check_authorization >> list_files_ids >> download_files_locally
     download_files_locally >> check_db_connection >> cine_heroku_table
-    cine_heroku_table >> store_to_heroku_db
+    cine_heroku_table >> store_heart_rate_to_db

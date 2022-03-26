@@ -5,7 +5,6 @@ A complete flow of tasks to:
 3. Parse them in any way and store them in postgres DB ````(file_parsing.py)````
 4. The above flow created as airflow tasks to automate the process ```(gdrive_to_local_dag.py)```
 
-
 # Installation
 - Set "dags_folder" in config.cfg to point to this project's roots folder dags
 - Make sure you have a folder called credentials and inside the "client_secrets.json" generated from https://console.cloud.google.com/apis/ > credentials > create cred > OAuth Client IDs. 
@@ -42,5 +41,7 @@ For the first auth, it will pop up a google account window to manually authentic
 
 // if any db table issue (X table not found) appears, run "airflow db reset" in heroku run bash
 
-# TODO
-1. dag tests work locally but not in circleci (same for coverage)
+# Testing
+To run tests simply have a docker instance locally and run circleci build in the project's CLI.
+Dag tests work locally but not in circleci so they are commented out for circleci to pass,
+to run them locally, simply add "test_dag" in the wrapper of ci function in ```tasks.py```
