@@ -3,7 +3,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-from custom_packages.file_handlers import get_file_info, download_files_locally, authorize
+from custom_packages.file_handlers import get_file_info, download_files_locally, authorize, check_gdrive_auth
 
 with DAG(
         dag_id='gdrive_to_local_dag',
@@ -14,6 +14,12 @@ with DAG(
         tags=['gdrive'],
 ) as dag:
     drive_service = authorize()
+
+    check_authorization = PythonOperator(
+        task_id='check_gdrive_auth',
+        python_callable=check_gdrive_auth,
+        op_kwargs={"my_param": drive_service}
+    )
 
     list_files_ids = PythonOperator(
         task_id='get_file_info',
@@ -27,4 +33,4 @@ with DAG(
         op_kwargs={"my_param": drive_service}
     )
 
-    list_files_ids >> download_files_locally
+    check_authorization >> list_files_ids >> download_files_locally

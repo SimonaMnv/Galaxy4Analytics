@@ -1,5 +1,7 @@
 import httplib2
 
+from airflow import AirflowException
+
 from googleapiclient import discovery
 from googleapiclient.http import MediaIoBaseDownload
 
@@ -42,6 +44,11 @@ def authorize():
     drive_service = discovery.build('drive', 'v3', http=http)
 
     return drive_service
+
+
+def check_gdrive_auth(my_param):
+    if not my_param:
+        raise ValueError('Authorization function is not successful')
 
 
 def get_file_info(my_param, **context):
