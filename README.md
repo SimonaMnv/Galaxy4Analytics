@@ -42,6 +42,6 @@ For the first auth, it will pop up a google account window to manually authentic
 // if any db table issue (X table not found) appears, run "airflow db reset" in heroku run bash
 
 # Testing
-To run tests simply have a docker instance locally and run circleci build in the project's CLI.
+To run tests simply have a docker instance locally and run ```circleci build``` in the project's CLI.
 Dag tests work locally but not in circleci so they are commented out for circleci to pass,
 to run them locally, simply add "test_dag" in the wrapper of ci function in ```tasks.py```

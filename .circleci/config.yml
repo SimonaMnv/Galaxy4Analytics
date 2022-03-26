@@ -21,7 +21,7 @@ aliases:
       cd credentials
       ls
   - &check-dags-file
-    name: Chack /dags content
+    name: Check /dags content
     command: |
       ls /home/circleci/project/dags
 version: 2.1
