@@ -44,7 +44,8 @@ For the first auth, it will pop up a google account window to manually authentic
 # ENV Variables
 Environmental variables were set in circleci and Heroku
 1. CircleCI ENV vars used: ```GOOGLE_DRIVE_CREDENTIALS```
-2. Heroku ENV vars used: <img width="490" alt="image" src="https://user-images.githubusercontent.com/59322298/160252814-6a0b1e01-e9a2-4e00-84dd-2b81c3b157ea.png">
+2. Heroku ENV vars used:
+<img width="490" alt="image" src="https://user-images.githubusercontent.com/59322298/160252814-6a0b1e01-e9a2-4e00-84dd-2b81c3b157ea.png">
 
 
 # DAG
