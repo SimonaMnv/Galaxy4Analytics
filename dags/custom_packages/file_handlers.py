@@ -48,7 +48,7 @@ def authorize():
 
 def check_gdrive_auth(my_param):
     if not my_param:
-        raise ValueError('Authorization function is not successful')
+        raise AirflowException('Authorization function is not successful')
 
 
 def get_file_info(my_param, **context):
