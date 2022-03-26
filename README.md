@@ -43,9 +43,13 @@ For the first auth, it will pop up a google account window to manually authentic
 
 # ENV Variables
 Environmental variables were set in circleci and Heroku
+1. CircleCI ENV vars used: ```GOOGLE_DRIVE_CREDENTIALS```
+2. Heroku ENV vars used: <img width="490" alt="image" src="https://user-images.githubusercontent.com/59322298/160252814-6a0b1e01-e9a2-4e00-84dd-2b81c3b157ea.png">
 
 
 # DAG
+<img width="1246" alt="image" src="https://user-images.githubusercontent.com/59322298/160252750-5ab97c7d-8beb-4e1b-bcd1-4861c94c390b.png">
+
 
 # Testing
 To run tests simply have a docker instance locally and run ```circleci build``` in the project's CLI.
