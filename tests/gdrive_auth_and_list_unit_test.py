@@ -5,11 +5,11 @@ import unittest
 import httplib2
 from googleapiclient import discovery
 
-from dags.custom_packages.gdrive_file_processing import Auth2Drive
+from dags.custom_packages.gdrive_auth_and_list import Auth2Drive
 
-project_root = os.path.dirname(os.path.dirname(__file__)).replace('/dags', '')
+from dags.custom_packages.config_vars import config
 
-""" unit tests on gdrive_file_processing_unit_test.py -> can't mock this, so connection reliant we are """
+""" unit tests on gdrive_auth_and_list_unit_test.py -> can't mock this, so connection reliant we are """
 
 
 class CheckGdriveFileProcessing(unittest.TestCase):
@@ -18,8 +18,8 @@ class CheckGdriveFileProcessing(unittest.TestCase):
         self.params = [
             "10",
             "https://www.googleapis.com/auth/drive",
-            project_root + "/credentials",
-            project_root + "/credentials/google-drive-credentials.json",
+            config['project_root'] + "/credentials",
+            config['project_root'] + "/credentials/google-drive-credentials.json",
             "GDrive API",
             ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
         ]
@@ -33,7 +33,7 @@ class CheckGdriveFileProcessing(unittest.TestCase):
     def test_credentials_exist(self):
         """ check if credentials exist either via env variable or through file """
         exists = True if os.environ.get("GOOGLE_DRIVE_CREDENTIALS") is not None or os.path.exists(
-            project_root + "/credentials/google-drive-credentials.json") else False
+            config['project_root'] + "/credentials/google-drive-credentials.json") else False
         self.assertTrue(exists)
 
     def test_get_creds_object_obtained(self):

@@ -113,7 +113,7 @@ def test_unit(ctx):
     Run any unit tests
     """
     print('Running unit tests...')
-    shell.command_no_suppress('python -m unittest discover -s tests -p "gdrive_file_processing_unit_test.py" -v')
+    shell.command_no_suppress('python -m unittest discover -s tests -p "*_unit_test.py" -v')
 
 
 @task(initdb, clean)
@@ -122,7 +122,7 @@ def test_coverage(ctx):
     test coverage
     """
     print('Running test coverage...')
-    shell.command_no_suppress('coverage run --branch -m unittest tests/gdrive_file_processing_unit_test.py')
+    shell.command_no_suppress('coverage run --branch -m unittest tests/gdrive_auth_and_list_unit_test.py')
     # coverage run - -branch - m unittest discover -s tests - p "*_test.py"
 
 
@@ -144,7 +144,7 @@ def lint(ctx):
     ctx.run('flake8')
 
 
-# todo: fix: test_dag is skipped because they don't run in circleci
+# todo: fix: test_dag is removed (skipped) because they don't run in circleci
 @task(grant_pg_db, lint, test_unit, coverage)
 def ci(ctx):
     """

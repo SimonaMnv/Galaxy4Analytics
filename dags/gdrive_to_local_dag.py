@@ -1,112 +1,59 @@
 from datetime import datetime
 
-import httplib2
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.providers.google.suite.hooks.drive import GoogleDriveHook
-from googleapiclient import discovery
 
-from custom_packages.gdrive_file_processing import Auth2Drive
-
-import os
-
-ENV = 'prod'
-
-project_root = os.path.dirname(os.path.dirname(__file__))
-heroku_google_credentials = os.environ.get("GOOGLE_DRIVE_APPLICATION_HEROKU_CREDENTIALS")
-
-if ENV == 'dev':
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = project_root + '/credentials/service_account_key.json'
-else:
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = heroku_google_credentials
-
-params = {
-    "LIST_FILE_SIZE": "10",
-    "SCOPES": "https://www.googleapis.com/auth/drive",
-    "CLIENT_SECRET_FILE_DIR": project_root + "/credentials",
-    "CLIENT_SECRET_FILE": project_root + '/credentials/client_secrets.json',
-    "APPLICATION_NAME": "GDrive API",
-    "PARENT_FILES": ["Health Sync Activities", "Health Sync Heart Rate", "Health Sync Steps"]
-}
+from custom_packages.file_handlers import get_file_info, download_files_locally, authorize, check_gdrive_auth
+from custom_packages.data_control import DBControl
+from custom_packages.config_vars import config
 
 
-def authorize_and_get_file_info(**context):
-    """
-    Calls Auth2Drive class to automatically authorize google creds.
-    Gets the children id's based on the defined parent id's (root folders) in /config to list the children files we need
-    :return:
-    """
-    auth_inst = Auth2Drive(
-        params['LIST_FILE_SIZE'],
-        params['SCOPES'],
-        params['CLIENT_SECRET_FILE_DIR'],
-        params['CLIENT_SECRET_FILE'],
-        params['APPLICATION_NAME'],
-        params['PARENT_FILES']
-    )
-
-    credentials = auth_inst.get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    drive_service = discovery.build('drive', 'v3', http=http)
-
-    parent_ids = auth_inst.list_parent_files(drive_service)
-    children_ids = auth_inst.list_children_files(parent_ids, drive_service)
-
-    full_list = []
-    for child in children_ids:
-        full_list.extend(child)
-
-    context['task_instance'].xcom_push(key="children_id_name", value=full_list)
-
-
-def download_files(**context):
-    """
-    Download file(s) from gdrive based on their file_id.
-    :param context:
-    :return:
-    """
-    children_info = context['task_instance'].xcom_pull(key='children_id_name')
-    task_list = []
-    task_count = 0
-
-    for child_info in children_info:
-        task_count += 1
-        task_list.append(
-            hook.download_file(
-                file_id=child_info['id'],
-                file_handle=open(project_root + '/downloaded_dataset/' + str(child_info['name'])
-                                 .replace('/', '-')
-                                 .replace(' ', '_'), "wb")
-            )
-        )
-
-    # for the dag test of this function
-    context['task_instance'].xcom_push(key="downloaded_files_len", value=len(task_list))
-
+db_connection_params = config['database_url'] if config['ENV'] == 'prod' else config['postgresql_local']
 
 with DAG(
         dag_id='gdrive_to_local_dag',
-        schedule_interval='05 12 * * *',
+        schedule_interval='10 05 * * *',
         start_date=datetime(2022, 1, 1),
         catchup=False,
         default_args={"owner": "airflow", 'depends_on_past': False},
         tags=['gdrive'],
 ) as dag:
-    authorize_and_get_files_id = PythonOperator(
-        task_id='authorize_and_list_files',
-        python_callable=authorize_and_get_file_info
+    drive_service = authorize()
+    db_control = DBControl(db_connection_params)
+
+    check_authorization = PythonOperator(
+        task_id='check_gdrive_auth',
+        python_callable=check_gdrive_auth,
+        op_kwargs={"my_param": drive_service}
     )
 
-    hook = GoogleDriveHook(
-        api_version='v3',
-        gcp_conn_id='google_drive_conn',
-        delegate_to=None,
-        impersonation_chain=None
+    list_files_ids = PythonOperator(
+        task_id='get_file_info',
+        python_callable=get_file_info,
+        op_kwargs={"my_param": drive_service}
     )
 
     download_files_locally = PythonOperator(
         task_id='download_files_locally',
-        python_callable=download_files
+        python_callable=download_files_locally,
+        op_kwargs={"my_param": drive_service}
     )
 
-    authorize_and_get_files_id >> download_files_locally
+    check_db_connection = PythonOperator(
+        task_id='check_db_connection_status',
+        python_callable=db_control.check_db_connection_status
+    )
+
+    cine_heroku_table = PythonOperator(
+        task_id='create_table_if_not_exists',
+        python_callable=db_control.create_table_if_not_exists
+    )
+
+    store_heart_rate_to_db = PythonOperator(
+        task_id='store_heart_rate_to_postgres',
+        python_callable=db_control.store_heart_rate_to_postgres
+    )
+
+    check_authorization >> list_files_ids >> download_files_locally
+    download_files_locally >> check_db_connection >> cine_heroku_table
+    cine_heroku_table >> store_heart_rate_to_db

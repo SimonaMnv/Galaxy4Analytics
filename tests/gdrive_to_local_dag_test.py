@@ -4,8 +4,9 @@ from airflow import DAG
 from airflow.models import DagBag
 from airflow.operators.python import PythonOperator
 
-from dags.gdrive_to_local_dag import authorize_and_get_file_info, download_files
+from dags.custom_packages.file_handlers import authorize, get_file_info, download_files_locally
 from utils.dag_test import DagRunTester
+
 import logging
 
 
@@ -41,17 +42,24 @@ class CheckGDriveToLocalDag(unittest.TestCase):
         dag = self.dagbag.get_dag('gdrive_to_local_dag')
         self.assertEqual(len(dag.tasks), 2)
 
-    def test_authorize_and_get_file_info_task(self):
+    def test_authorize(self):
+        """ authorize returns a googleapiclient object """
+        return self.assertIsNotNone(authorize())
+
+    def test_list_file_info_task(self):
         """ test authorize_and_get_file_info task """
+        drive_service = authorize()
+
         self.dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
 
         _ = PythonOperator(
-            task_id='authorize_and_list_files',
-            python_callable=authorize_and_get_file_info,
+            task_id='get_file_info',
+            python_callable=get_file_info,
+            op_kwargs={"my_param": drive_service},
             dag=self.dag
         )
 
-        ti = self.dagrun_harness.get_task_instance(self.dag, "authorize_and_list_files")
+        ti = self.dagrun_harness.get_task_instance(self.dag, "get_file_info")
         ti.run()
 
         # after the run, the results should provide us with a list
@@ -60,11 +68,14 @@ class CheckGDriveToLocalDag(unittest.TestCase):
 
     def test_download_files_task(self):
         """ test download_files_locally task """
+        drive_service = authorize()
+
         self.dag = DAG(dag_id='anydag', start_date=DagRunTester.START_DATE)
 
         _ = PythonOperator(
             task_id='download_files_locally',
-            python_callable=download_files,
+            python_callable=download_files_locally,
+            op_kwargs={"my_param": drive_service},
             dag=self.dag
         )
 

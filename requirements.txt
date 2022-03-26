@@ -1,4 +1,4 @@
-apache-airflow[postgres,ldap,statsd,ssh,google,celery]==2.2.4
+apache-airflow[postgres,ldap,statsd,ssh,google]==2.2.4
 python-dotenv
 coverage
 invoke
@@ -8,6 +8,7 @@ wheel
 tailhead
 psutil
 pyhamcrest
-oauth2client
+oauth2client==3.0.0
 pandas
 cryptography
+psycopg2-binary
