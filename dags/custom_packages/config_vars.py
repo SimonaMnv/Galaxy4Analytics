@@ -1,6 +1,6 @@
 import os
 
 config = {
-    "ENV": "dev",
+    "ENV": "prod",
     "project_root": os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 }
